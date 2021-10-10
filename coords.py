@@ -1,5 +1,6 @@
 from math import cos, pi, sin
 
+EARTH_RADIUS = 6371000
 
 def build_sector(azimuth, beam, lat, lon, length=150, parts=2):
     """Drawing sector displaying azimuth and horizontal beam of antenna"""
@@ -12,17 +13,16 @@ def build_sector(azimuth, beam, lat, lon, length=150, parts=2):
         azimuths[part] = azimuth - angle
         azimuths[len(azimuths) - 1 - part] = azimuth + angle
     coords = [(lon, lat)]
-    earth_radius = 6371000
     for az in azimuths:
         c_lat = round(
-            lat + length * cos(az * pi / 180) / (earth_radius * pi / 180), 5
+            lat + length * cos(az * pi / 180) / (EARTH_RADIUS * pi / 180), 5
         )
         c_lon = round(
             lon
             + length
             * sin(az * pi / 180)
             / cos(lat * pi / 180)
-            / (earth_radius * pi / 180),
+            / (EARTH_RADIUS * pi / 180),
             5,
         )
         coords.append((c_lon, c_lat))
